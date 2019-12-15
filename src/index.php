@@ -1,3 +1,5 @@
+<?php include_once "backend/index_bk.php" ?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -8,16 +10,11 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Shop Homepage - Start Bootstrap Template</title>
+    <title>Shelf Shop</title>
 
-    <!-- Bootstrap core CSS -->
     <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-
-		<!-- Google fonts -->
-		<link href="https://fonts.googleapis.com/css?family=Lobster|Roboto&display=swap" rel="stylesheet">
-	
-    <!-- Custom styles for this template -->
-    <link href="css/welcome.css" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css?family=Lobster|Roboto&display=swap" rel="stylesheet">
+    <link href="css/index.css" rel="stylesheet">
 
 </head>
 
@@ -35,15 +32,6 @@
                     <li class="nav-item active">
                     		<a class="nav-link" href="index.php">Home<span class="sr-only">(current)</span></a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Menu Item 1</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Menu Item 2</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Menu Item 3</a>
-                    </li>
                 </ul>
             </div>
         </div>
@@ -54,13 +42,29 @@
 
         <div class="row">
 
-            <div class="col-lg-3">
+            <div class="col-lg-3" style="padding-top: 24px;">
 
-                <h1 class="my-4">Shop Name</h1>
                 <div class="list-group">
-                    <a href="#" class="list-group-item">Category 1</a>
-                    <a href="#" class="list-group-item">Category 2</a>
-                    <a href="#" class="list-group-item">Category 3</a>
+                    <?php
+
+                    // Get the categories from the db.
+                    $categories = array();
+
+                    $catSql = "SELECT id, name FROM categories";
+
+                    if ($catStmt = mysqli_prepare($db, $catSql)) 
+                    {
+                        $catStmt->execute();
+                        $result = $catStmt->get_result();
+
+                        // Fetch the result variables.
+                        while ($row = $result->fetch_assoc()) 
+                        {
+                            echo '<a href="categories.php?id='.$row["id"].'" class="list-group-item">'.$row["name"].'</a>';
+                        }
+                    }
+
+                    ?>
                 </div>
 
             </div>
